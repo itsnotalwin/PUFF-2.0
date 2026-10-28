@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -30,17 +30,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Restore Vite entrypoint from source template
+        run: cp index.source.html index.html
+
       - name: Build production website
         run: npm run build
 
-      - name: Switch Pages away from legacy branch publishing
-        # The legacy Pages workflow otherwise redeploys uncompiled index.html.
-        # Only Pages settings are touched; application files remain unchanged.
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Publish compiled homepage for branch-based Pages
+        # Some Pages settings still deploy the repository root. Always keep
+        # its index.html compiled, so either publishing route serves the app.
         run: |
-          gh api --method PUT "repos/${{ github.repository }}/pages" -f build_type=workflow
+          test -s dist/index.html
+          cp dist/index.html index.html
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "ci: sync compiled site for branch Pages [skip ci]"
+            git push origin HEAD:main
+          fi
 
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@v3
