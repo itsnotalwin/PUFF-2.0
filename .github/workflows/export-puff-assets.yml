@@ -1,0 +1,81 @@
+name: Export PUFF logo and social assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/export-puff-assets.yml"
+      - "scripts/extract-puff-art.mjs"
+      - "scripts/export-puff-assets.py"
+      - "src/lib/bud.ts"
+      - "src/components/puffPaths.ts"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: puff-brand-assets
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Prepare Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install site dependencies for vector extraction
+        run: npm ci
+
+      - name: Prepare Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PNG and SVG exporters
+        run: python -m pip install pillow cairosvg numpy lxml
+
+      - name: Extract original PUFF site logo artwork
+        run: node scripts/extract-puff-art.mjs
+
+      - name: Generate and verify master and social logos
+        run: python scripts/export-puff-assets.py
+
+      - name: Write brand asset index
+        shell: bash
+        run: |
+          cat > assets/brand/README.md <<'EOF'
+          # PUFF 2.0 final brand kit
+
+          Monochrome artwork exported from the live site's original bud geometry and Pacifico-outline wordmark. No replacement illustration or font.
+
+          - [Master logos](master): four SVG masters plus four high-resolution PNGs, white on black and black on white, both full logo and standalone wordmark.
+          - [WhatsApp profile pictures](social/WhatsApp): four circle-safe 640 × 640 PNGs.
+          - [Social media exports](social): 40 PNGs for WhatsApp, Instagram, Threads, Facebook, X, LinkedIn, TikTok, Pinterest, YouTube, Stories, posts, and banners.
+          - [Complete downloadable ZIPs](archives): logo kit, WhatsApp avatars, and complete social kit.
+
+          The website's look and functionality must not be changed by asset export. PNG sizes are verified by the exporter.
+          Regenerate from source with npm ci, node scripts/extract-puff-art.mjs, then python scripts/export-puff-assets.py after installing Python dependencies.
+          EOF
+
+      - name: Check in assets without changing the website
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/brand/
+          if git diff --cached --quiet; then
+            echo "Brand assets already match generated files."
+            exit 0
+          fi
+          git commit -m "assets: publish final PUFF logos and social exports [skip ci]"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
