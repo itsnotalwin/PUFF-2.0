@@ -35,6 +35,7 @@ export const MENU: Category[] = [
     items: [
       { id: "od-50", label: "R50 Pack", weight: "4g", grams: 4, price: 50 },
       { id: "od-100", label: "R100 Pack", weight: "8g", grams: 8, price: 100 },
+      { id: "od-bulk", label: "10g+ (Per Gram)", weight: "10g minimum · R120 for 10g", grams: 10, price: 120 },
       { id: "od-pre", label: "Pre-Roll", weight: "1g", grams: 1, price: 20 },
     ],
   },
