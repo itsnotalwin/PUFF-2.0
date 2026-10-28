@@ -33,6 +33,15 @@ jobs:
       - name: Build production website
         run: npm run build
 
+      - name: Switch Pages away from legacy branch publishing
+        # The legacy Pages workflow otherwise redeploys uncompiled index.html.
+        # Only Pages settings are touched; application files remain unchanged.
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method PUT "repos/${{ github.repository }}/pages" -f build_type=workflow
+
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@v3
         with:
