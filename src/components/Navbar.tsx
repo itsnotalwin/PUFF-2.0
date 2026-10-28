@@ -10,7 +10,6 @@ const LINKS = [
   { href: "#lineup", label: "Lineup" },
   { href: "#calculator", label: "Mixer" },
   { href: "#faq", label: "FAQ" },
-  { href: "#visit", label: "Visit" },
 ];
 
 export default function Navbar({ show }: { show: boolean }) {

@@ -1,7 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import PuffLogo from "@/components/PuffLogo";
-import { HOURS } from "@/data/menu";
 import { ArrowUp, LiquidButton } from "@/components/ui";
 import { scrollToTarget } from "@/lib/scroll";
 
@@ -10,7 +9,6 @@ const LINKS = [
   { href: "#lineup", label: "Lineup" },
   { href: "#calculator", label: "Budget mixer" },
   { href: "#faq", label: "FAQ" },
-  { href: "#visit", label: "Visit" },
 ];
 
 export default function Footer() {
@@ -20,7 +18,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-ink text-cream">
       <div className="mx-auto max-w-7xl px-5 pb-8 pt-2 md:px-10">
-        <div className="grid gap-10 border-b border-cream/15 pb-12 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="grid gap-10 border-b border-cream/15 pb-12 md:grid-cols-[1.4fr_1fr]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -54,19 +52,7 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          <div>
-            <p className="kicker text-cream/45">Hours</p>
-            <ul className="mt-4 space-y-3 text-[0.95rem] text-cream/80">
-              {HOURS.map((h) => (
-                <li key={h.day} className="flex justify-between gap-4 md:block">
-                  <span className="font-wide text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cream md:mr-3">
-                    {h.day}
-                  </span>
-                  <span className="tabular-nums">{h.time}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+
         </div>
 
         <div ref={ref} className="py-10 md:py-14">

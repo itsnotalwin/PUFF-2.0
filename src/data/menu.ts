@@ -108,24 +108,9 @@ export const FAQ = [
   },
   {
     q: "How do I order?",
-    a: "Add what you want to your bag, then send the order to us on WhatsApp straight from the bag. We'll confirm availability and sort out the rest.",
+    a: "Add what you want to your bag, then use Copy order to copy the details.",
   },
 ];
-
-export const HOURS = [
-  { day: "Mon – Thu", time: "10:00 – 20:00", days: [1, 2, 3, 4], open: 10, close: 20 },
-  { day: "Fri – Sat", time: "10:00 – 22:00", days: [5, 6], open: 10, close: 22 },
-  { day: "Sunday", time: "11:00 – 18:00", days: [0], open: 11, close: 18 },
-];
-
-/** Put your WhatsApp number here in international format, e.g. "27821234567".
- *  Left empty, the order button opens WhatsApp's share sheet instead. */
-export const WHATSAPP_NUMBER = "";
-
-export function waLink(text: string) {
-  const base = WHATSAPP_NUMBER ? `https://wa.me/${WHATSAPP_NUMBER}` : "https://wa.me/";
-  return `${base}?text=${encodeURIComponent(text)}`;
-}
 
 /** Best-value mix for a budget (unbounded knapsack in R10 steps). */
 export function bestMix(items: MenuItem[], budget: number) {

@@ -4,7 +4,6 @@ import { useBag, type BagLine } from "./BagContext";
 import Bud from "./Bud";
 import {
   AnimatedNumber,
-  ChatIcon,
   CheckIcon,
   CloseIcon,
   CopyIcon,
@@ -13,7 +12,6 @@ import {
   PlusIcon,
 } from "./ui";
 import { lockScroll, scrollToTarget } from "@/lib/scroll";
-import { waLink } from "@/data/menu";
 
 function orderText(items: BagLine[], total: number) {
   const lines = items.map((i) => `• ${i.qty}× ${i.category} — ${i.label} (${i.weight}) — R${i.qty * i.price}`);
@@ -199,21 +197,18 @@ export default function BagDrawer() {
                   </span>
                 </div>
                 <div className="mt-5 grid gap-2.5">
-                  <LiquidButton href={waLink(text)} target="_blank" variant="ink" magnetic={false} className="w-full">
-                    <ChatIcon className="size-4" /> Order on WhatsApp
+                  <LiquidButton onClick={copy} variant="ink" magnetic={false} className="w-full">
+                    {copied ? (
+                      <>
+                        <CheckIcon className="size-4" /> Copied
+                      </>
+                    ) : (
+                      <>
+                        <CopyIcon className="size-4" /> Copy order
+                      </>
+                    )}
                   </LiquidButton>
-                  <div className="grid grid-cols-[1fr_auto] gap-2.5">
-                    <LiquidButton onClick={copy} variant="outline-ink" magnetic={false} className="w-full">
-                      {copied ? (
-                        <>
-                          <CheckIcon className="size-4" /> Copied
-                        </>
-                      ) : (
-                        <>
-                          <CopyIcon className="size-4" /> Copy order
-                        </>
-                      )}
-                    </LiquidButton>
+                  <div className="flex justify-end">
                     <button
                       onClick={clear}
                       className="rounded-full px-4 font-wide text-[11px] font-bold uppercase tracking-[0.2em] text-mist underline-offset-4 transition-colors hover:text-ink hover:underline"
