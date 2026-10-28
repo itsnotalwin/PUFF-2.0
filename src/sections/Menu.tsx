@@ -23,7 +23,11 @@ function MenuRow({ item, cat, i }: { item: MenuItem; cat: Category; i: number })
       </div>
       <div className="relative flex items-center">
         <p className="row-price text-[2rem] font-extrabold leading-none tracking-tight sm:text-[2.35rem]">
-          R<AnimatedNumber value={item.price} fromZeroOnView duration={1.4} />
+          {item.id === "od-bulk" ? (
+            <>R<AnimatedNumber value={12} fromZeroOnView duration={1.4} /><span className="ml-1 text-[1rem] font-bold">/g</span></>
+          ) : (
+            <>R<AnimatedNumber value={item.price} fromZeroOnView duration={1.4} /></>
+          )}
         </p>
         <button
           className="row-add grid size-11 place-items-center rounded-full bg-ink text-cream hover:bg-ink/85"
