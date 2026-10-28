@@ -1,4 +1,4 @@
-name: Build and deploy PUFF site
+name: Build compiled PUFF homepage
 
 on:
   push:
@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: github-pages
@@ -37,8 +35,8 @@ jobs:
         run: npm run build
 
       - name: Publish compiled homepage for branch-based Pages
-        # Some Pages settings still deploy the repository root. Always keep
-        # its index.html compiled, so either publishing route serves the app.
+        # GitHub Pages is configured to deploy from the branch.
+        # Never run a second deployment workflow in parallel.
         run: |
           test -s dist/index.html
           cp dist/index.html index.html
@@ -50,18 +48,3 @@ jobs:
             git push origin HEAD:main
           fi
 
-      - name: Upload website artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy website
-        id: deployment
-        uses: actions/deploy-pages@v4
