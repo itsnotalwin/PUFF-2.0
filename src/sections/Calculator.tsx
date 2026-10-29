@@ -1,12 +1,17 @@
 import { motion } from "framer-motion";
 import { useMemo, useState, type CSSProperties } from "react";
-import { MENU, bestMix } from "@/data/menu";
+import { MENU, bestMix, type Category } from "@/data/menu";
 import { useBag } from "@/components/BagContext";
 import { AnimatedNumber, LiquidButton, PlusIcon, SectionHeading } from "@/components/ui";
 import { cn } from "@/utils/cn";
 
-const MIN = Math.min(...MENU.flatMap((category) => category.items.map((item) => item.price)));
-const MAX = 500;
+const activePrices = MENU.flatMap((category) => category.items.map((item) => item.price))
+  .filter((price) => Number.isFinite(price) && price > 0);
+const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+const STEP = activePrices.map((price) => Math.round(price * 100))
+  .reduce((current, price) => gcd(current, price), 0) / 100;
+const MIN = Math.min(...activePrices);
+const MAX = Math.max(500, ...activePrices);
 const MAX_GRAMS = Math.max(1, ...MENU.map((category) => bestMix(category.items, MAX).grams));
 const PRESETS = [...new Set([
   ...MENU[0].items.filter((item) => item.grams > 1).map((item) => item.price),
@@ -71,8 +76,7 @@ function Jar({ level, id }: { level: number; id: string }) {
   );
 }
 
-function JarCard({ title, budget, index }: { title: string; budget: number; index: number }) {
-  const cat = MENU[index];
+function JarCard({ cat, budget, index }: { cat: Category; budget: number; index: number }) {
   const mix = useMemo(() => bestMix(cat.items, budget), [cat, budget]);
   const { add } = useBag();
   return (
@@ -84,16 +88,33 @@ function JarCard({ title, budget, index }: { title: string; budget: number; inde
       transition={{ type: "spring", stiffness: 60, damping: 14, delay: index * 0.12 }}
     >
       <Jar level={mix.grams / MAX_GRAMS} id={`jar-${cat.id}`} />
-      <p className="kicker mt-5 text-cream/60">{title}</p>
+      <p className="kicker mt-5 text-cream/60">{cat.title}</p>
       <p className="mt-1 text-4xl font-extrabold tracking-tight md:text-5xl">
         <AnimatedNumber value={mix.grams} format={fmtGrams} duration={0.7} />
         <span className="text-2xl md:text-3xl">g</span>
       </p>
-      <p className="mt-2 min-h-[2.6rem] max-w-[14rem] font-wide text-[0.62rem] font-semibold uppercase leading-relaxed tracking-[0.16em] text-cream/55">
-        {mix.lines.length
-          ? mix.lines.map((l) => `${l.qty}× ${l.item.label}`).join(" + ")
-          : `Min. R${Math.min(...cat.items.map((i) => i.price))} for ${title.toLowerCase()}`}
-      </p>
+      <div className="mt-3 flex min-h-[6rem] w-full max-w-[15rem] flex-col items-center gap-2 text-center">
+        {mix.lines.length ? (
+          <ul aria-label={`${cat.title} mix breakdown`} className="w-full space-y-1.5">
+            {mix.lines.map(({ item, qty }) => (
+              <li
+                key={item.id}
+                className="font-wide text-[0.62rem] font-semibold uppercase leading-relaxed tracking-[0.1em] text-cream/75"
+              >
+                <span className="block">{qty}× {fmtGrams(item.grams)}g · {item.label}</span>
+                <span className="block text-cream/50">R{qty * item.price}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="font-wide text-[0.62rem] font-semibold uppercase leading-relaxed tracking-[0.1em] text-cream/60">
+            Min. R{Math.min(...cat.items.map((item) => item.price))} for {cat.title.toLowerCase()}
+          </p>
+        )}
+        <p className="font-wide text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-cream/65">
+          R{mix.spent} used · R{Math.max(0, Math.round((budget - mix.spent) * 100) / 100)} left
+        </p>
+      </div>
       <LiquidButton
         variant="outline-cream"
         magnetic={false}
@@ -158,7 +179,7 @@ export default function Calculator() {
               type="range"
               min={MIN}
               max={MAX}
-              step={10}
+              step={STEP}
               value={budget}
               onChange={(e) => setBudget(Number(e.target.value))}
               className="range mt-8 w-full"
@@ -198,8 +219,9 @@ export default function Calculator() {
           </motion.div>
 
           <div className="grid grid-cols-2 gap-4 md:gap-10">
-            <JarCard title="Greenhouse" budget={budget} index={0} />
-            <JarCard title="Outdoor" budget={budget} index={1} />
+            {MENU.map((cat, index) => (
+              <JarCard key={cat.id} cat={cat} budget={budget} index={index} />
+            ))}
           </div>
         </div>
       </div>
