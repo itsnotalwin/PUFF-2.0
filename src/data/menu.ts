@@ -18,7 +18,7 @@ export const MENU: Category[] = [
   {
     id: "greenhouse",
     title: "Greenhouse",
-    sub: ["Sunset Sherbet", "Lemon Cheese"],
+    sub: ["Sunset Sherbet", "Lemon Cheesecake"],
     isStrainList: true,
     items: [
       { id: "gh-gram", label: "Per Gram", weight: "1g", grams: 1, price: 30 },
@@ -69,7 +69,7 @@ export const STRAINS: Strain[] = [
   },
   {
     no: "02",
-    name: "Lemon Cheese",
+    name: "Lemon Cheesecake",
     blurb: "Bright citrus up front with that famous funky finish.",
     notes: "Lemon · Funk",
     mood: "Uplifted",
