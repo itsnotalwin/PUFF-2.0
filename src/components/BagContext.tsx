@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { MENU, SPECIAL_PACKS } from "@/data/menu";
 import {
   createContext,
   useCallback,
@@ -58,7 +59,33 @@ export function BagProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<BagLine[]>(() => {
     try {
       const raw = localStorage.getItem(KEY);
-      return raw ? (JSON.parse(raw) as BagLine[]) : [];
+      if (!raw) return [];
+      const saved: unknown = JSON.parse(raw);
+      if (!Array.isArray(saved)) return [];
+
+      // Reconcile persisted bags against current prices, weights and IDs.
+      // Obsolete formats are removed instead of allowing incorrect totals.
+      const products: BagInput[] = [
+        ...MENU.flatMap((category) =>
+          category.items.map((item) => ({
+            id: item.id, category: category.title, label: item.label,
+            weight: item.weight, price: item.price,
+          })),
+        ),
+        ...SPECIAL_PACKS.map((item) => ({
+          id: item.id, category: "Greenhouse", label: item.label,
+          weight: item.weight, price: item.price,
+        })),
+      ];
+      const current = new Map(products.map((item) => [item.id, item]));
+      return saved.flatMap((value: unknown): BagLine[] => {
+        if (!value || typeof value !== "object") return [];
+        const line = value as Partial<BagLine>;
+        if (typeof line.id !== "string" || typeof line.qty !== "number" ||
+            !Number.isInteger(line.qty) || line.qty <= 0) return [];
+        const product = current.get(line.id);
+        return product ? [{ ...product, qty: line.qty }] : [];
+      });
     } catch {
       return [];
     }

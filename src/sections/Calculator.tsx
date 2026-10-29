@@ -5,9 +5,13 @@ import { useBag } from "@/components/BagContext";
 import { AnimatedNumber, LiquidButton, PlusIcon, SectionHeading } from "@/components/ui";
 import { cn } from "@/utils/cn";
 
-const MIN = 20;
+const MIN = Math.min(...MENU.flatMap((category) => category.items.map((item) => item.price)));
 const MAX = 500;
-const MAX_GRAMS = 40;
+const MAX_GRAMS = Math.max(1, ...MENU.map((category) => bestMix(category.items, MAX).grams));
+const PRESETS = [...new Set([
+  ...MENU[0].items.filter((item) => item.grams > 1).map((item) => item.price),
+  200, 300, MAX,
+])].filter((value) => value >= MIN && value <= MAX).sort((a, b) => a - b);
 const WAVE = "M0 8 Q20 0 40 8 T80 8 T120 8 T160 8 T200 8 T240 8 T280 8 T320 8 V280 H0 Z";
 const fmtGrams = (v: number) => (Math.abs(v - Math.round(v)) < 0.005 ? String(Math.round(v)) : v.toFixed(2));
 
@@ -165,7 +169,7 @@ export default function Calculator() {
               <span>R{MAX}</span>
             </div>
             <div className="mt-6 flex flex-wrap gap-2">
-              {[50, 100, 200, 300, 500].map((v) => (
+              {PRESETS.map((v) => (
                 <button
                   key={v}
                   onClick={() => setBudget(v)}
@@ -188,7 +192,7 @@ export default function Calculator() {
                   more flower — greenhouse gets you the top shelf.
                 </p>
               ) : (
-                <p className="text-[0.95rem] leading-relaxed">R20 buys an outdoor pre-roll. Slide up for greenhouse.</p>
+                <p className="text-[0.95rem] leading-relaxed">Greenhouse options start at R{Math.min(...MENU[0].items.map((item) => item.price))}. Slide up to compare both grades.</p>
               )}
             </div>
           </motion.div>

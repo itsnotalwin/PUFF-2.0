@@ -18,12 +18,12 @@ export const MENU: Category[] = [
   {
     id: "greenhouse",
     title: "Greenhouse",
-    sub: ["Sunset Sherbet", "Lemon Cheese", "Forbidos", "Jungle Diamonds"],
+    sub: ["Sunset Sherbet", "Lemon Cheese"],
     isStrainList: true,
     items: [
       { id: "gh-gram", label: "Per Gram", weight: "1g", grams: 1, price: 30 },
-      { id: "gh-50", label: "R50 Pack", weight: "1.67g", grams: 1.67, price: 50 },
-      { id: "gh-100", label: "R100 Pack", weight: "3.33g", grams: 3.33, price: 100 },
+      { id: "gh-60", label: "R60 Pack", weight: "2g", grams: 2, price: 60 },
+      { id: "gh-120", label: "R120 Pack", weight: "4g", grams: 4, price: 120 },
       { id: "gh-pre", label: "Pre-Roll", weight: "1g", grams: 1, price: 50 },
     ],
   },
@@ -39,6 +39,12 @@ export const MENU: Category[] = [
       { id: "od-pre", label: "Pre-Roll", weight: "1g", grams: 1, price: 20 },
     ],
   },
+];
+
+/** Separate legacy 1.67g offerings; not part of the general greenhouse budget mixer. */
+export const SPECIAL_PACKS: MenuItem[] = [
+  { id: "gh-forbidos-167", label: "Forbidos", weight: "1.67g", grams: 1.67, price: 50 },
+  { id: "gh-jungle-167", label: "Jungle Diamonds", weight: "1.67g", grams: 1.67, price: 50 },
 ];
 
 export type Strain = {
@@ -97,7 +103,7 @@ export const FAQ = [
   },
   {
     q: "What's in a pack?",
-    a: "Packs are pre-weighed so we can serve you fast. Grab an R50 or R100 pack in either grade — the exact weight is listed on the menu next to each price.",
+    a: "Packs are pre-weighed; check the exact weight beside each price. Special 1.67g greenhouse packs are listed separately beneath the main menu.",
   },
   {
     q: "Are the pre-rolls pure flower?",
@@ -113,30 +119,49 @@ export const FAQ = [
   },
 ];
 
-/** Best-value mix for a budget (unbounded knapsack in R10 steps). */
+/** Maximise flower weight for a budget using the currently supplied product prices.
+ * Prices are normalised to cents and the DP step is derived from their GCD,
+ * so updating menu.ts or adding non-R10 prices never requires changing the mixer.
+ */
 export function bestMix(items: MenuItem[], budget: number) {
-  const unit = 10;
-  const B = Math.floor(budget / unit);
-  type S = { grams: number; count: number; picks: number[] };
-  const best: S[] = [{ grams: 0, count: 0, picks: items.map(() => 0) }];
-  for (let b = 1; b <= B; b++) {
-    let cur = best[b - 1];
-    items.forEach((it, idx) => {
-      const c = Math.round(it.price / unit);
-      if (c > b) return;
-      const prev = best[b - c];
-      const g = prev.grams + it.grams;
-      const cnt = prev.count + 1;
-      if (g > cur.grams + 0.02 || (Math.abs(g - cur.grams) <= 0.02 && cnt < cur.count)) {
-        const picks = [...prev.picks];
-        picks[idx]++;
-        cur = { grams: g, count: cnt, picks };
-      }
-    });
-    best[b] = cur;
+  const empty = () => ({ grams: 0, spent: 0, lines: [] as { item: MenuItem; qty: number }[] });
+  if (!Number.isFinite(budget) || budget <= 0 || items.length === 0) return empty();
+
+  const options = items
+    .map((item, index) => ({ item, index, cents: Math.round(item.price * 100) }))
+    .filter(({ item, cents }) => cents > 0 && Number.isFinite(cents) && Number.isFinite(item.grams) && item.grams > 0);
+  if (options.length === 0) return empty();
+
+  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+  const step = options.reduce((value, option) => gcd(value, option.cents), 0);
+  const capacity = Math.floor(Math.round(budget * 100) / step);
+  type State = { grams: number; count: number; cents: number; picks: number[] };
+  const initial: State = { grams: 0, count: 0, cents: 0, picks: items.map(() => 0) };
+  const best: State[] = [initial];
+
+  for (let b = 1; b <= capacity; b++) {
+    let current = best[b - 1];
+    for (const option of options) {
+      const cost = option.cents / step;
+      if (cost > b) continue;
+      const previous = best[b - cost];
+      const grams = previous.grams + option.item.grams;
+      const count = previous.count + 1;
+      const cents = previous.cents + option.cents;
+      const better = grams > current.grams + 0.00001 ||
+        (Math.abs(grams - current.grams) <= 0.00001 &&
+          (count < current.count || (count === current.count && cents < current.cents)));
+      if (!better) continue;
+      const picks = [...previous.picks];
+      picks[option.index]++;
+      current = { grams, count, cents, picks };
+    }
+    best[b] = current;
   }
-  const r = best[B];
-  const lines = r.picks.map((qty, i) => ({ item: items[i], qty })).filter((l) => l.qty > 0);
-  const spent = lines.reduce((s, l) => s + l.qty * l.item.price, 0);
-  return { grams: Math.round(r.grams * 100) / 100, spent, lines };
+
+  const result = best[capacity];
+  const lines = result.picks
+    .map((qty, index) => ({ item: items[index], qty }))
+    .filter(({ qty }) => qty > 0);
+  return { grams: Math.round(result.grams * 100) / 100, spent: result.cents / 100, lines };
 }
