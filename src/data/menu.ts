@@ -41,6 +41,14 @@ export const MENU: Category[] = [
   },
 ];
 
+/** Limited-time menu specials. Kept outside the standard price list and budget mixer. */
+export const MENU_SPECIALS: { category: "greenhouse" | "outdoor"; item: MenuItem }[] = [
+  { category: "outdoor", item: { id: "special-od-preroll-10", label: "10 Outdoor Pre-Rolls", weight: "10 × 1g", grams: 10, price: 180 } },
+  { category: "greenhouse", item: { id: "special-gh-preroll-10", label: "10 Greenhouse Pre-Rolls", weight: "10 × 1g", grams: 10, price: 270 } },
+  { category: "outdoor", item: { id: "special-od-10g", label: "10g Outdoor Special", weight: "10g", grams: 10, price: 100 } },
+  { category: "greenhouse", item: { id: "special-gh-10g", label: "10g Greenhouse Special", weight: "10g", grams: 10, price: 250 } },
+];
+
 /** Separate legacy 1.67g offerings; not part of the general greenhouse budget mixer. */
 export const SPECIAL_PACKS: MenuItem[] = [
   { id: "gh-forbidos-167", label: "Forbidos", weight: "1.67g", grams: 1.67, price: 50 },
