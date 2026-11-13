@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useRef } from "react";
-import { MENU, SPECIAL_PACKS, type Category, type MenuItem } from "@/data/menu";
+import { MENU, MENU_SPECIALS, SPECIAL_PACKS, type Category, type MenuItem } from "@/data/menu";
 import { useBag } from "@/components/BagContext";
 import { AnimatedNumber, BagIcon, LiquidButton, PlusIcon, SectionHeading } from "@/components/ui";
 import { cn } from "@/utils/cn";
@@ -170,6 +170,25 @@ export default function Menu() {
         <ul className="grid gap-x-8 md:grid-cols-2">
           {SPECIAL_PACKS.map((item, i) => (
             <MenuRow key={item.id} item={item} cat={MENU[0]} i={i} />
+          ))}
+        </ul>
+      </motion.div>
+
+      <motion.div
+        className="relative mx-auto mt-8 max-w-5xl rounded-[2.4rem] border border-cream/20 bg-cream px-6 py-7 text-ink sm:px-9 md:mt-10"
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7, ease }}
+      >
+        <div className="border-b border-line pb-5">
+          <p className="kicker text-mist">Limited-time offers</p>
+          <h3 className="mt-2 font-wide text-lg font-bold uppercase tracking-[0.2em] sm:text-xl">Specials</h3>
+          <p className="mt-2 text-sm text-mist">Four featured menu offers</p>
+        </div>
+        <ul className="grid gap-x-8 md:grid-cols-2">
+          {MENU_SPECIALS.map(({ category, item }, i) => (
+            <MenuRow key={item.id} item={item} cat={MENU[category === "greenhouse" ? 0 : 1]} i={i} />
           ))}
         </ul>
       </motion.div>
