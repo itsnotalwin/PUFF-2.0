@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useRef } from "react";
-import { MENU, MENU_SPECIALS, PRE_ROLL_OFFER, SPECIAL_PACKS, type Category, type MenuItem } from "@/data/menu";
+import { MENU, MENU_SPECIALS, PRE_ROLL_OFFER, type Category, type MenuItem } from "@/data/menu";
 import menuDownloadUrl from "../../assets/brand/PUFF-Menu.svg?url";
 import { useBag } from "@/components/BagContext";
 import { AnimatedNumber, BagIcon, LiquidButton, PlusIcon, SectionHeading } from "@/components/ui";
@@ -155,25 +155,6 @@ export default function Menu() {
           <MenuCard key={cat.id} cat={cat} index={i} />
         ))}
       </div>
-
-      <motion.div
-        className="relative mx-auto mt-8 max-w-5xl rounded-[2.4rem] bg-cream px-6 py-7 text-ink sm:px-9 md:mt-10"
-        initial={{ opacity: 0, y: 35 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.7, ease }}
-      >
-        <div className="border-b border-line pb-5">
-          <p className="kicker text-mist">Other greenhouse formats</p>
-          <h3 className="mt-2 font-wide text-lg font-bold uppercase tracking-[0.2em] sm:text-xl">Original 1.67g packs</h3>
-          <p className="mt-2 text-sm text-mist">Forbidos and Jungle Diamonds · available separately from the main greenhouse range</p>
-        </div>
-        <ul className="grid gap-x-8 md:grid-cols-2">
-          {SPECIAL_PACKS.map((item, i) => (
-            <MenuRow key={item.id} item={item} cat={MENU[0]} i={i} />
-          ))}
-        </ul>
-      </motion.div>
 
       <motion.div
         className="relative mx-auto mt-8 max-w-5xl rounded-[2.4rem] bg-cream px-6 py-7 text-ink sm:px-9 md:mt-10"

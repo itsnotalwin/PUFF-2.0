@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MENU, MENU_SPECIALS, SPECIAL_PACKS, calculatePreRollOffer } from "@/data/menu";
+import { MENU, MENU_SPECIALS, calculatePreRollOffer } from "@/data/menu";
 import {
   createContext,
   useCallback,
@@ -77,10 +77,6 @@ export function BagProvider({ children }: { children: ReactNode }) {
             weight: item.weight, price: item.price, promo: item.promo,
           })),
         ),
-        ...SPECIAL_PACKS.map((item) => ({
-          id: item.id, category: "Greenhouse", label: item.label,
-          weight: item.weight, price: item.price, promo: item.promo,
-        })),
         ...MENU_SPECIALS.map(({ category, item }) => ({
           id: item.id, category: category === "greenhouse" ? "Greenhouse" : "Outdoor",
           label: item.label, weight: item.weight, price: item.price, promo: item.promo,

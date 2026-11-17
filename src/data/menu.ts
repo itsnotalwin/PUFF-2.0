@@ -19,7 +19,7 @@ export const MENU: Category[] = [
   {
     id: "greenhouse",
     title: "Greenhouse",
-    sub: ["Sunset Sherbet", "Lemon Cheesecake"],
+    sub: ["Sunset Sherbet", "Lemon Cheesecake", "Forbidos", "Jungle Diamonds"],
     isStrainList: true,
     items: [
       { id: "gh-gram", label: "Per Gram", weight: "1g", grams: 1, price: 30 },
@@ -75,12 +75,6 @@ export function calculatePreRollOffer(
     discount: Math.round(discount * 100) / 100,
   };
 }
-
-/** Separate legacy 1.67g offerings; not part of the general greenhouse budget mixer. */
-export const SPECIAL_PACKS: MenuItem[] = [
-  { id: "gh-forbidos-167", label: "Forbidos", weight: "1.67g", grams: 1.67, price: 50 },
-  { id: "gh-jungle-167", label: "Jungle Diamonds", weight: "1.67g", grams: 1.67, price: 50 },
-];
 
 export type Strain = {
   no: string;
@@ -138,7 +132,7 @@ export const FAQ = [
   },
   {
     q: "What's in a pack?",
-    a: "Packs are pre-weighed; check the exact weight beside each price. Special 1.67g greenhouse packs are listed separately beneath the main menu.",
+    a: "Packs are pre-weighed; check the exact weight beside each price. Limited-time specials are listed beneath the main menu.",
   },
   {
     q: "Are the pre-rolls pure flower?",
