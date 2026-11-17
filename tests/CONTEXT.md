@@ -11,4 +11,4 @@ Change and verify: Update test expectations when authorised menu prices change; 
 
 ## Promotion regression coverage (18 November 2026)
 
-Tests now verify the 10g Outdoor R100 and Greenhouse R200 specials, absence of the old R250 offer, the 9/10/20 pre-roll thresholds, cheapest-free handling for mixed types, and unique IDs across standard, legacy and limited-special catalogue entries. Continue running `npm test` before the production build.
+Tests verify the four greenhouse strain names, retirement of the separate legacy 1.67g formats, the 10g Outdoor R100 and Greenhouse R200 specials, absence of the old R250 offer, the 9/10/20 pre-roll thresholds, cheapest-free handling for mixed types, and unique IDs across standard and limited-special catalogue entries. Continue running `npm test` before the production build.

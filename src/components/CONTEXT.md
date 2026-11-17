@@ -11,4 +11,4 @@ Change and verify: Never let an outdated saved price or removed menu item surviv
 
 ## Pre-roll promotion
 
-`BagContext.tsx` calculates one free pre-roll for each complete group of ten eligible units. If greenhouse and outdoor pre-rolls are mixed, the cheapest unit(s) are free. The net total, promotion discount and eligible count are exposed to `BagDrawer.tsx`; saved bag reconciliation must include the current `MENU_SPECIALS` as well as standard and legacy products. Copy order must include subtotal, promotion discount and net total.
+`BagContext.tsx` calculates one free pre-roll for each complete group of ten eligible units. If greenhouse and outdoor pre-rolls are mixed, the cheapest unit(s) are free. The net total, promotion discount and eligible count are exposed to `BagDrawer.tsx`; saved bag reconciliation must include the current `MENU_SPECIALS` and standard products. Retired 1.67g legacy pack IDs must be dropped from persisted bags. Copy order must include subtotal, promotion discount and net total.

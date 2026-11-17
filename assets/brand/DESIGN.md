@@ -7,4 +7,4 @@ Monochrome vector logo from the final PUFF-2.0 website, retaining the original s
 
 ## Downloadable menu
 
-`PUFF-Menu.svg` is the current vector menu export. It retains the approved script wordmark, monochrome palette, original menu hierarchy and light specials panel. The buy-9-get-1 note explains that the lowest-priced pre-roll is free when types are combined. The authentic live-site screenshot remains pending; do not fabricate one.
+`PUFF-Menu.svg` is the website's downloadable menu. It follows the original poster's two-panel liquid/ink composition, keeps the four greenhouse strain names together, uses the approved bud and script wordmark, and places the three current offers on an open ivory area with no heavy black promo frame. The buy-9-get-1 note explains that the lowest-priced pre-roll is free when types are combined. The authentic live-site screenshot remains pending; do not fabricate one.

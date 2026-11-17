@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { MENU, MENU_SPECIALS, SPECIAL_PACKS, bestMix, calculatePreRollOffer } from "../src/data/menu.ts";
+import { MENU, MENU_SPECIALS, bestMix, calculatePreRollOffer } from "../src/data/menu.ts";
 
 const greenhouse = MENU.find((category) => category.id === "greenhouse");
 const outdoor = MENU.find((category) => category.id === "outdoor");
@@ -21,11 +21,11 @@ function checkMix(category, budget) {
   return mix;
 }
 
-test("greenhouse primary packs are 2g/R60 and 4g/R120", () => {
+test("greenhouse card lists all four strains and retired 1.67g formats are absent", () => {
+  assert.deepEqual(greenhouse.sub, ["Sunset Sherbet", "Lemon Cheesecake", "Forbidos", "Jungle Diamonds"]);
   assert.ok(greenhouse.items.some(({ grams, price }) => grams === 2 && price === 60));
   assert.ok(greenhouse.items.some(({ grams, price }) => grams === 4 && price === 120));
   assert.equal(greenhouse.items.some(({ grams }) => grams === 1.67 || grams === 3.33), false);
-  assert.deepEqual(new Set(SPECIAL_PACKS.map(({ id }) => id)), new Set(["gh-forbidos-167", "gh-jungle-167"]));
 });
 
 test("limited flower specials use the latest approved prices", () => {
@@ -107,7 +107,7 @@ test("mixer remains variable when new menu prices are introduced", () => {
 });
 
 test("all catalogue items have unique IDs and valid pricing", () => {
-  const products = [...MENU.flatMap((category) => category.items), ...SPECIAL_PACKS, ...MENU_SPECIALS.map(({ item }) => item)];
+  const products = [...MENU.flatMap((category) => category.items), ...MENU_SPECIALS.map(({ item }) => item)];
   assert.equal(new Set(products.map(({ id }) => id)).size, products.length);
   assert.ok(products.every(({ price, grams }) => Number.isFinite(price) && price > 0 && Number.isFinite(grams) && grams > 0));
 });
