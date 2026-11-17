@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920" role="img" aria-labelledby="title desc">
+  <title id="title">PUFF menu</title>
+  <desc id="desc">Greenhouse and outdoor menu with updated specials.</desc>
+  <defs>
+    <style>
+      .ink{fill:#0b0b0b}.paper{fill:#fbfaf7}.muted{fill:#8e8a83}.rule{stroke:#d9d5cd;stroke-width:2}
+      .wide{font-family:Lato,Inter,Arial,sans-serif;fill:#0b0b0b}
+      .kicker{font-size:20px;font-weight:700;letter-spacing:6px;fill:#8e8a83}
+      .heading{font-size:38px;font-weight:900;letter-spacing:5px}
+      .strain{font-size:16px;font-weight:700;letter-spacing:1.5px;fill:#8e8a83}
+      .label{font-size:25px;font-weight:700;letter-spacing:1.5px}
+      .weight{font-size:20px;font-weight:400;fill:#8e8a83}
+      .price{font-size:42px;font-weight:900}
+      .smallprice{font-size:31px;font-weight:800}
+      .special{font-size:29px;font-weight:900;letter-spacing:1px}
+      .specialprice{font-size:43px;font-weight:900}
+      .offer{font-size:30px;font-weight:900;letter-spacing:1px}
+      .note{font-size:17px;font-weight:400;fill:#8e8a83}
+      .footer{font-size:18px;font-weight:800;letter-spacing:3px}
+    </style>
+  </defs>
+  <rect width="1080" height="1920" fill="#f3f1ec"/>
+  <!-- Organic ink accents echo the original master without boxing in the specials. -->
+  <path class="ink" d="M0 0H170C145 62 121 91 83 98C42 106 23 139 45 174C70 215 38 257 0 251Z"/>
+  <circle class="ink" cx="975" cy="128" r="30"/><circle class="ink" cx="922" cy="196" r="12"/>
+  <path class="ink" d="M1080 1920H900C918 1866 946 1840 983 1846C1021 1852 1047 1819 1025 1784C1001 1745 1038 1710 1080 1718Z"/>
+  <circle class="ink" cx="88" cy="1815" r="18"/>
+
+  <!-- Official PUFF script wordmark, using the original outlined glyph paths. -->
+  <g transform="translate(334 72) scale(1.0)" class="ink">
+    <path d="M163.4 76.8Q163.4 93.8 154.6 108Q145.8 122.2 129 131.2Q112.2 140.2 89 141.8L89 141.8L80.4 190Q75.4 217.8 53.2 217.8L53.2 217.8Q41 217.8 30.7 210.6Q20.4 203.4 14.2 188.6Q8 173.8 8 152.2L8 152.2Q8 111.6 21.1 83.3Q34.2 55 56.3 40.9Q78.4 26.8 105 26.8L105 26.8Q123.8 26.8 136.9 33.4Q150 40 156.7 51.3Q163.4 62.6 163.4 76.8L163.4 76.8ZM92.6 121.2Q133.6 116 133.6 78.6L133.6 78.6Q133.6 65.4 124.9 57.1Q116.2 48.8 98 48.8L98 48.8Q77.4 48.8 62.1 61.8Q46.8 74.8 38.5 97.9Q30.2 121 30.2 150.6L30.2 150.6Q30.2 163 32.7 172.6Q35.2 182.2 39.1 187.5Q43 192.8 46.6 192.8L46.6 192.8Q51.6 192.8 54.2 179L54.2 179L60.8 141.2Q53 140 54 140.2L54 140.2Q48 139.2 46.2 136.5Q44.4 133.8 44.4 129.6L44.4 129.6Q44.4 125.2 46.9 122.6Q49.4 120 53.8 120L53.8 120Q55.8 120 56.8 120.2L56.8 120.2Q61.6 121 64.2 121.2L64.2 121.2Q66.8 105.6 71.6 79.4L71.6 79.4Q72.8 72.6 77.1 69.7Q81.4 66.8 87.2 66.8L87.2 66.8Q93.8 66.8 96.7 69.3Q99.6 71.8 99.6 77.2L99.6 77.2Q99.6 80.4 99.2 82.4L99.2 82.4L92.6 121.2Z"/>
+    <path d="M177.8 197Q168.8 197 163.1 188.7Q157.4 180.4 157.4 168L157.4 168Q157.4 153 159.4 140.5Q161.4 128 166 114L166 114Q168 108 171.6 105.4Q175.2 102.8 183 102.8L183 102.8Q187.4 102.8 189.1 104.2Q190.8 105.6 190.8 108.4L190.8 108.4Q190.8 110 188.6 119.2L188.6 119.2Q186.6 126.6 185.4 132.6L185.4 132.6Q181.4 153.6 181.4 160.6L181.4 160.6Q181.4 164.8 182.4 166.5Q183.4 168.2 185.6 168.2L185.6 168.2Q188.6 168.2 193.1 162.2Q197.6 156.2 202.7 144Q207.8 131.8 212.6 114L212.6 114Q214.2 108 217.5 105.4Q220.8 102.8 227.4 102.8L227.4 102.8Q232 102.8 233.8 103.9Q235.6 105 235.6 108L235.6 108Q235.6 113 230.6 135.4L230.6 135.4Q225 161 225 167L225 167Q225 170.8 226.6 172.9Q228.2 175 230.8 175L230.8 175Q234.8 175 240.3 170.1Q245.8 165.2 255 154.2L255 154.2Q257.4 151.4 260.4 151.4L260.4 151.4Q263 151.4 264.5 153.8Q266 156.2 266 160.4L266 160.4Q266 168.4 262.2 172.8L262.2 172.8Q253.6 183.4 243.7 190.2Q233.8 197 221.2 197L221.2 197Q211.6 197 207.1 189.6Q202.6 182.2 202.6 168.8L202.6 168.8Q199.2 182.4 192.4 189.7Q185.6 197 177.8 197L177.8 197Z"/>
+    <path d="M327.6 140Q333.2 140 333.2 148.4L333.2 148.4Q333.2 164.2 308.4 164.2L308.4 164.2Q303.6 164.2 294.6 162.4L294.6 162.4Q297.2 174.8 298.9 189.9Q300.6 205 300.6 214.8L300.6 214.8Q300.6 236.4 293.6 247.8Q286.6 259.2 275.2 259.2L275.2 259.2Q260.8 259.2 254.7 238.8Q248.6 218.4 248.6 177.2L248.6 177.2Q248.6 138.8 256.9 99.3Q265.2 59.8 279.7 33.9Q294.2 8 311.6 8L311.6 8Q321 8 326.3 16.4Q331.6 24.8 331.6 39L331.6 39Q331.6 86 275.4 141.4L275.4 141.4Q273.4 161 273.4 175.8L273.4 175.8Q273.4 196.4 274.8 218.1Q276.2 239.8 279.4 239.8L279.4 239.8Q285.4 239.8 285.4 219L285.4 219Q285.4 203.4 283.3 188.8Q281.2 174.2 277.6 158L277.6 158Q277.4 155.4 279.3 151.4Q281.2 147.4 284 144.4Q286.8 141.4 289 141.4L289 141.4Q293 141.4 298.6 141.8L298.6 141.8Q300.4 142 302.8 142L302.8 142Q310.8 142 320.6 140.6L320.6 140.6Q322.2 140.4 324 140.2Q325.8 140 327.6 140L327.6 140ZM307.4 27.8Q303.8 27.8 298.5 40Q293.2 52.2 288 72.3Q282.8 92.4 279 114.8L279 114.8Q295 96.6 303.6 76.9Q312.2 57.2 312.4 40L312.4 40Q312.4 27.8 307.4 27.8L307.4 27.8Z"/>
+    <path d="M397.8 140Q403.4 140 403.4 148.4L403.4 148.4Q403.4 164.2 378.6 164.2L378.6 164.2Q373.8 164.2 364.8 162.4L364.8 162.4Q367.4 174.8 369.1 189.9Q370.8 205 370.8 214.8L370.8 214.8Q370.8 236.4 363.8 247.8Q356.8 259.2 345.4 259.2L345.4 259.2Q331 259.2 324.9 238.8Q318.8 218.4 318.8 177.2L318.8 177.2Q318.8 138.8 327.1 99.3Q335.4 59.8 349.9 33.9Q364.4 8 381.8 8L381.8 8Q391.2 8 396.5 16.4Q401.8 24.8 401.8 39L401.8 39Q401.8 86 345.6 141.4L345.6 141.4Q343.6 161 343.6 175.8L343.6 175.8Q343.6 196.4 345 218.1Q346.4 239.8 349.6 239.8L349.6 239.8Q355.6 239.8 355.6 219L355.6 219Q355.6 203.4 353.5 188.8Q351.4 174.2 347.8 158L347.8 158Q347.6 155.4 349.5 151.4Q351.4 147.4 354.2 144.4Q357 141.4 359.2 141.4L359.2 141.4Q363.2 141.4 368.8 141.8L368.8 141.8Q370.6 142 373 142L373 142Q381 142 390.8 140.6L390.8 140.6Q392.4 140.4 394.2 140.2Q396 140 397.8 140L397.8 140ZM377.6 27.8Q374 27.8 368.7 40Q363.4 52.2 358.2 72.3Q353 92.4 349.2 114.8L349.2 114.8Q365.2 96.6 373.8 76.9Q382.4 57.2 382.6 40L382.6 40Q382.6 27.8 377.6 27.8L377.6 27.8Z"/>
+  </g>
+  <text x="540" y="400" class="wide kicker" text-anchor="middle">FRESH FLOWER  /  THE MENU</text>
+
+  <rect x="70" y="455" width="450" height="610" rx="34" class="paper" stroke="#d9d5cd" stroke-width="2"/>
+  <rect x="560" y="455" width="450" height="610" rx="34" class="paper" stroke="#d9d5cd" stroke-width="2"/>
+  <text x="295" y="520" class="wide heading" text-anchor="middle">GREENHOUSE</text>
+  <text x="295" y="560" class="wide strain" text-anchor="middle">SUNSET SHERBET  ·  LEMON CHEESECAKE</text>
+  <text x="785" y="520" class="wide heading" text-anchor="middle">OUTDOOR</text>
+  <text x="785" y="560" class="wide strain" text-anchor="middle">SUN-GROWN  ·  HOUSE BLEND</text>
+  <path class="rule" d="M105 590H485M595 590H975"/>
+
+  <g class="wide">
+    <text x="110" y="650" class="label">PER GRAM</text><text x="110" y="680" class="weight">1g</text><text x="480" y="666" class="price" text-anchor="end">R30</text>
+    <path class="rule" d="M105 710H485"/>
+    <text x="110" y="765" class="label">R60 PACK</text><text x="110" y="795" class="weight">2g</text><text x="480" y="781" class="price" text-anchor="end">R60</text>
+    <path class="rule" d="M105 825H485"/>
+    <text x="110" y="880" class="label">R120 PACK</text><text x="110" y="910" class="weight">4g</text><text x="480" y="896" class="price" text-anchor="end">R120</text>
+    <path class="rule" d="M105 940H485"/>
+    <text x="110" y="995" class="label">PRE-ROLL</text><text x="110" y="1025" class="weight">1g</text><text x="480" y="1011" class="price" text-anchor="end">R50</text>
+
+    <text x="600" y="650" class="label">R50 PACK</text><text x="600" y="680" class="weight">4g</text><text x="970" y="666" class="price" text-anchor="end">R50</text>
+    <path class="rule" d="M595 710H975"/>
+    <text x="600" y="765" class="label">R100 PACK</text><text x="600" y="795" class="weight">8g</text><text x="970" y="781" class="price" text-anchor="end">R100</text>
+    <path class="rule" d="M595 825H975"/>
+    <text x="600" y="880" class="label">BULK</text><text x="600" y="910" class="weight">10g minimum</text><text x="970" y="896" class="smallprice" text-anchor="end">R12/g</text>
+    <path class="rule" d="M595 940H975"/>
+    <text x="600" y="995" class="label">PRE-ROLL</text><text x="600" y="1025" class="weight">1g</text><text x="970" y="1011" class="price" text-anchor="end">R20</text>
+  </g>
+
+  <rect x="70" y="1095" width="940" height="165" rx="28" class="paper" stroke="#d9d5cd" stroke-width="2"/>
+  <text x="540" y="1135" class="wide kicker" text-anchor="middle">OTHER GREENHOUSE FORMATS</text>
+  <path class="rule" d="M105 1180H975M105 1220H975"/>
+  <text x="110" y="1170" class="wide label">FORBIDOS  ·  1.67g</text><text x="970" y="1170" class="wide smallprice" text-anchor="end">R50</text>
+  <text x="110" y="1210" class="wide label">JUNGLE DIAMONDS  ·  1.67g</text><text x="970" y="1210" class="wide smallprice" text-anchor="end">R50</text>
+
+  <rect x="70" y="1290" width="940" height="320" rx="28" class="paper" stroke="#d9d5cd" stroke-width="2"/>
+  <text x="540" y="1340" class="wide kicker" text-anchor="middle">SPECIALS</text>
+  <path class="rule" d="M105 1390H975M105 1465H975M105 1540H975"/>
+  <text x="110" y="1440" class="wide special">10g OUTDOOR</text><text x="970" y="1442" class="wide specialprice" text-anchor="end">R100</text>
+  <text x="110" y="1515" class="wide special">10g GREENHOUSE</text><text x="970" y="1517" class="wide specialprice" text-anchor="end">R200</text>
+  <text x="110" y="1590" class="wide special">10 PRE-ROLLS</text><text x="970" y="1590" class="wide offer" text-anchor="end">BUY 9  ·  GET 1 FREE</text>
+  <text x="540" y="1655" class="wide note" text-anchor="middle">Mix &amp; match pre-rolls · lowest-priced pre-roll is free when types are combined.</text>
+  <text x="540" y="1700" class="wide footer" text-anchor="middle">18+ ONLY  ·  VALID ID REQUIRED  ·  ALL PRICES IN RAND</text>
+</svg>

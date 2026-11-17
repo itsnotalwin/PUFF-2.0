@@ -20,3 +20,6 @@ The final site’s artwork and ready-sized social files are stored at [assets/br
 Uses React, TypeScript, Vite and Tailwind. Run `npm ci`, then `npm run dev` for local development. GitHub Pages must publish a **compiled** Vite site. See [PROJECT.md](PROJECT.md) and the [deployment workflow](.github/workflows/deploy-pages.yml); never replace the published root `index.html` with the raw TypeScript-reference template.
 
 The brand export workflow [export-puff-assets.yml](.github/workflows/export-puff-assets.yml) regenerates static files from the website’s original bud and wordmark vectors. Asset exports must not change site layout or behavior.
+
+
+- [Download the current PUFF menu](assets/brand/PUFF-Menu.svg) — vector export with the R100 outdoor, R200 greenhouse and buy-9-get-1 pre-roll offers.

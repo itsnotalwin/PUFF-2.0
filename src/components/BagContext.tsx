@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MENU, SPECIAL_PACKS } from "@/data/menu";
+import { MENU, MENU_SPECIALS, SPECIAL_PACKS, calculatePreRollOffer } from "@/data/menu";
 import {
   createContext,
   useCallback,
@@ -18,6 +18,7 @@ export type BagLine = {
   label: string;
   weight: string;
   price: number;
+  promo?: "buy-9-get-1";
   qty: number;
 };
 export type BagInput = Omit<BagLine, "qty">;
@@ -34,6 +35,10 @@ type Drop = {
 type BagCtx = {
   items: BagLine[];
   count: number;
+  subtotal: number;
+  discount: number;
+  freePreRolls: number;
+  preRollCount: number;
   total: number;
   add: (lines: { item: BagInput; qty: number }[], from?: DOMRect | null) => void;
   setQty: (id: string, qty: number) => void;
@@ -69,12 +74,16 @@ export function BagProvider({ children }: { children: ReactNode }) {
         ...MENU.flatMap((category) =>
           category.items.map((item) => ({
             id: item.id, category: category.title, label: item.label,
-            weight: item.weight, price: item.price,
+            weight: item.weight, price: item.price, promo: item.promo,
           })),
         ),
         ...SPECIAL_PACKS.map((item) => ({
           id: item.id, category: "Greenhouse", label: item.label,
-          weight: item.weight, price: item.price,
+          weight: item.weight, price: item.price, promo: item.promo,
+        })),
+        ...MENU_SPECIALS.map(({ category, item }) => ({
+          id: item.id, category: category === "greenhouse" ? "Greenhouse" : "Outdoor",
+          label: item.label, weight: item.weight, price: item.price, promo: item.promo,
         })),
       ];
       const current = new Map(products.map((item) => [item.id, item]));
@@ -161,8 +170,15 @@ export function BagProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<BagCtx>(() => {
     const count = items.reduce((s, i) => s + i.qty, 0);
-    const total = items.reduce((s, i) => s + i.qty * i.price, 0);
-    return { items, count, total, add, setQty, remove, clear, isOpen, setOpen, bagRef, bump };
+    const subtotal = items.reduce((s, i) => s + i.qty * i.price, 0);
+    const offer = calculatePreRollOffer(items);
+    const discount = offer.discount;
+    const total = Math.max(0, Math.round((subtotal - discount) * 100) / 100);
+    return {
+      items, count, subtotal, discount,
+      freePreRolls: offer.freeCount, preRollCount: offer.eligibleCount,
+      total, add, setQty, remove, clear, isOpen, setOpen, bagRef, bump,
+    };
   }, [items, add, setQty, remove, clear, isOpen, bump]);
 
   return (

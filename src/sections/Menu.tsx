@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useRef } from "react";
-import { MENU, MENU_SPECIALS, SPECIAL_PACKS, type Category, type MenuItem } from "@/data/menu";
+import { MENU, MENU_SPECIALS, PRE_ROLL_OFFER, SPECIAL_PACKS, type Category, type MenuItem } from "@/data/menu";
+import menuDownloadUrl from "../../assets/brand/PUFF-Menu.svg?url";
 import { useBag } from "@/components/BagContext";
 import { AnimatedNumber, BagIcon, LiquidButton, PlusIcon, SectionHeading } from "@/components/ui";
 import { cn } from "@/utils/cn";
@@ -36,7 +37,7 @@ function MenuRow({ item, cat, i }: { item: MenuItem; cat: Category; i: number })
             add(
               [
                 {
-                  item: { id: item.id, category: cat.title, label: item.label, weight: item.weight, price: item.price },
+                  item: { id: item.id, category: cat.title, label: item.label, weight: item.weight, price: item.price, promo: item.promo },
                   qty: 1,
                 },
               ],
@@ -175,7 +176,7 @@ export default function Menu() {
       </motion.div>
 
       <motion.div
-        className="relative mx-auto mt-8 max-w-5xl rounded-[2.4rem] border border-cream/20 bg-cream px-6 py-7 text-ink sm:px-9 md:mt-10"
+        className="relative mx-auto mt-8 max-w-5xl rounded-[2.4rem] bg-cream px-6 py-7 text-ink sm:px-9 md:mt-10"
         initial={{ opacity: 0, y: 35 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -184,13 +185,23 @@ export default function Menu() {
         <div className="border-b border-line pb-5">
           <p className="kicker text-mist">Limited-time offers</p>
           <h3 className="mt-2 font-wide text-lg font-bold uppercase tracking-[0.2em] sm:text-xl">Specials</h3>
-          <p className="mt-2 text-sm text-mist">Four featured menu offers</p>
+          <p className="mt-2 text-sm text-mist">Two flower specials and one pre-roll offer</p>
         </div>
         <ul className="grid gap-x-8 md:grid-cols-2">
           {MENU_SPECIALS.map(({ category, item }, i) => (
             <MenuRow key={item.id} item={item} cat={MENU[category === "greenhouse" ? 0 : 1]} i={i} />
           ))}
         </ul>
+        <div className="mt-5 border-t border-line pt-5">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="kicker text-mist">{PRE_ROLL_OFFER.label}</p>
+              <h4 className="mt-1 font-wide text-lg font-bold uppercase tracking-[0.14em]">{PRE_ROLL_OFFER.detail}</h4>
+              <p className="mt-1 text-sm text-mist">{PRE_ROLL_OFFER.note}</p>
+            </div>
+            <span className="font-wide text-sm font-bold uppercase tracking-[0.18em] text-ink/70">10 × 1g</span>
+          </div>
+        </div>
       </motion.div>
 
       <motion.div
@@ -201,9 +212,14 @@ export default function Menu() {
         transition={{ duration: 0.8 }}
       >
         <p className="kicker text-cream/50">Tap + to add · Pre-rolls are 100% flower · Packs are pre-weighed</p>
-        <LiquidButton variant="cream" onClick={() => setOpen(true)}>
-          <BagIcon className="size-4" /> View bag · {count}
-        </LiquidButton>
+        <div className="flex flex-col items-center gap-3 sm:flex-row">
+          <a href={menuDownloadUrl} download="PUFF-Menu.svg" className="btn-liquid btn-outline-cream">
+            Download menu
+          </a>
+          <LiquidButton variant="cream" onClick={() => setOpen(true)}>
+            <BagIcon className="size-4" /> View bag · {count}
+          </LiquidButton>
+        </div>
       </motion.div>
     </section>
   );

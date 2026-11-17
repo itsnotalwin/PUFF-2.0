@@ -13,9 +13,11 @@ import {
 } from "./ui";
 import { lockScroll, scrollToTarget } from "@/lib/scroll";
 
-function orderText(items: BagLine[], total: number) {
+function orderText(items: BagLine[], subtotal: number, discount: number, freePreRolls: number, total: number) {
   const lines = items.map((i) => `• ${i.qty}× ${i.category} — ${i.label} (${i.weight}) — R${i.qty * i.price}`);
-  return ["Hi Puff! I'd like to order:", "", ...lines, "", `Total: R${total}`].join("\n");
+  const summary = [`Subtotal: R${subtotal}`];
+  if (discount > 0) summary.push(`Pre-roll offer: ${freePreRolls} free (−R${discount})`);
+  return ["Hi Puff! I'd like to order:", "", ...lines, "", ...summary, `Total: R${total}`].join("\n");
 }
 
 /** Wobbly liquid left edge of the drawer */
@@ -45,7 +47,7 @@ function DrawerEdge() {
 }
 
 export default function BagDrawer() {
-  const { items, total, count, isOpen, setOpen, setQty, remove, clear } = useBag();
+  const { items, total, subtotal, discount, freePreRolls, preRollCount, count, isOpen, setOpen, setQty, remove, clear } = useBag();
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ export default function BagDrawer() {
     };
   }, [isOpen, setOpen]);
 
-  const text = orderText(items, total);
+  const text = orderText(items, subtotal, discount, freePreRolls, total);
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(text);
@@ -190,6 +192,22 @@ export default function BagDrawer() {
 
             {items.length > 0 && (
               <footer className="border-t-2 border-ink px-6 pb-6 pt-5 md:px-8">
+                <div className="mb-4 space-y-2 border-t border-line pt-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-mist">Subtotal</span>
+                    <span className="font-semibold">R{subtotal}</span>
+                  </div>
+                  {discount > 0 ? (
+                    <div className="flex justify-between text-sm font-semibold">
+                      <span className="text-mist">Pre-roll offer · {freePreRolls} free</span>
+                      <span>−R{discount}</span>
+                    </div>
+                  ) : preRollCount > 0 ? (
+                    <p className="text-xs text-mist">
+                      Add {10 - (preRollCount % 10)} more pre-roll{10 - (preRollCount % 10) === 1 ? "" : "s"} to get one free.
+                    </p>
+                  ) : null}
+                </div>
                 <div className="flex items-end justify-between">
                   <span className="kicker text-mist">Total</span>
                   <span className="text-4xl font-extrabold tracking-tight">

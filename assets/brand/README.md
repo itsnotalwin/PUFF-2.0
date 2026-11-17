@@ -9,3 +9,6 @@ Monochrome artwork exported from the live site's original bud geometry and Pacif
 
 The website's look and functionality must not be changed by asset export. PNG sizes are verified by the exporter.
 Regenerate from source with npm ci, node scripts/extract-puff-art.mjs, then python scripts/export-puff-assets.py after installing Python dependencies.
+
+
+- [Updated downloadable menu (SVG)](PUFF-Menu.svg) — current 10g specials and buy-9-get-1 pre-roll offer.

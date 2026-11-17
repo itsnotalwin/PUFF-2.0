@@ -7,3 +7,8 @@ Key files: `BagContext.tsx` owns the bag items, persisted data and add animation
 Connections: The bag reads `data/menu.ts` to normalise saved items against current prices and product IDs; Menu and Calculator send their add actions here.
 
 Change and verify: Never let an outdated saved price or removed menu item survive a catalogue change. Preserve the single Copy order CTA, working keyboard/touch interaction and existing liquid animations. Run production build and actual browser checks.
+
+
+## Pre-roll promotion
+
+`BagContext.tsx` calculates one free pre-roll for each complete group of ten eligible units. If greenhouse and outdoor pre-rolls are mixed, the cheapest unit(s) are free. The net total, promotion discount and eligible count are exposed to `BagDrawer.tsx`; saved bag reconciliation must include the current `MENU_SPECIALS` as well as standard and legacy products. Copy order must include subtotal, promotion discount and net total.

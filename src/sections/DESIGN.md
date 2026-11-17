@@ -7,3 +7,8 @@ Capture routes: /#menu and /#calculator at 390×844 mobile and 1440×900 desktop
 ## Mixer jar breakdown (29 October 2026)
 
 Each animated jar must show its computed grams plus every selected item's quantity, weight, current catalogue label and line cost, followed by budget used and unused balance. The jar cards are created from `MENU` rather than manually coded category positions; the slider's step derives from menu prices. Keep the list readable in two narrow mobile columns. This source update requires live mobile/desktop visual capture, which has **not** been completed at the time of editing.
+
+
+## Updated specials presentation (18 November 2026)
+
+The limited-offer panel contains two add-to-bag flower rows and a separate buy-9-get-1 pre-roll promotion. Keep the specials panel in the same cream surface language as the other menu cards, with fine line dividers only and no heavy dark border. The download CTA links to the official vector menu in `assets/brand/PUFF-Menu.svg`. Genuine live-site mobile/desktop screenshots remain pending until a browser capture is available.

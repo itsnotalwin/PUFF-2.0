@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { MENU, SPECIAL_PACKS, bestMix } from "../src/data/menu.ts";
+import { MENU, MENU_SPECIALS, SPECIAL_PACKS, bestMix, calculatePreRollOffer } from "../src/data/menu.ts";
 
 const greenhouse = MENU.find((category) => category.id === "greenhouse");
 const outdoor = MENU.find((category) => category.id === "outdoor");
@@ -26,6 +26,40 @@ test("greenhouse primary packs are 2g/R60 and 4g/R120", () => {
   assert.ok(greenhouse.items.some(({ grams, price }) => grams === 4 && price === 120));
   assert.equal(greenhouse.items.some(({ grams }) => grams === 1.67 || grams === 3.33), false);
   assert.deepEqual(new Set(SPECIAL_PACKS.map(({ id }) => id)), new Set(["gh-forbidos-167", "gh-jungle-167"]));
+});
+
+test("limited flower specials use the latest approved prices", () => {
+  assert.equal(MENU_SPECIALS.length, 2);
+  assert.deepEqual(
+    Object.fromEntries(MENU_SPECIALS.map(({ category, item }) => [category, item.price])),
+    { outdoor: 100, greenhouse: 200 },
+  );
+  assert.equal(MENU_SPECIALS.some(({ item }) => item.price === 250), false);
+});
+
+test("buy 9 get 1 free applies every tenth pre-roll and discounts the cheapest mixed type", () => {
+  assert.deepEqual(
+    calculatePreRollOffer([{ promo: "buy-9-get-1", price: 20, qty: 9 }]),
+    { eligibleCount: 9, freeCount: 0, discount: 0 },
+  );
+  assert.deepEqual(
+    calculatePreRollOffer([{ promo: "buy-9-get-1", price: 20, qty: 10 }]),
+    { eligibleCount: 10, freeCount: 1, discount: 20 },
+  );
+  assert.deepEqual(
+    calculatePreRollOffer([
+      { promo: "buy-9-get-1", price: 50, qty: 9 },
+      { promo: "buy-9-get-1", price: 20, qty: 1 },
+    ]),
+    { eligibleCount: 10, freeCount: 1, discount: 20 },
+  );
+  assert.deepEqual(
+    calculatePreRollOffer([
+      { promo: "buy-9-get-1", price: 50, qty: 10 },
+      { promo: "buy-9-get-1", price: 20, qty: 10 },
+    ]),
+    { eligibleCount: 20, freeCount: 2, discount: 40 },
+  );
 });
 
 test("new greenhouse packs drive both jar totals and displayed line prices", () => {
@@ -73,7 +107,7 @@ test("mixer remains variable when new menu prices are introduced", () => {
 });
 
 test("all catalogue items have unique IDs and valid pricing", () => {
-  const products = [...MENU.flatMap((category) => category.items), ...SPECIAL_PACKS];
+  const products = [...MENU.flatMap((category) => category.items), ...SPECIAL_PACKS, ...MENU_SPECIALS.map(({ item }) => item)];
   assert.equal(new Set(products.map(({ id }) => id)).size, products.length);
   assert.ok(products.every(({ price, grams }) => Number.isFinite(price) && price > 0 && Number.isFinite(grams) && grams > 0));
 });

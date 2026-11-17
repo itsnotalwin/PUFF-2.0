@@ -4,6 +4,7 @@ export type MenuItem = {
   weight: string;
   grams: number;
   price: number;
+  promo?: "buy-9-get-1";
 };
 
 export type Category = {
@@ -24,7 +25,7 @@ export const MENU: Category[] = [
       { id: "gh-gram", label: "Per Gram", weight: "1g", grams: 1, price: 30 },
       { id: "gh-60", label: "R60 Pack", weight: "2g", grams: 2, price: 60 },
       { id: "gh-120", label: "R120 Pack", weight: "4g", grams: 4, price: 120 },
-      { id: "gh-pre", label: "Pre-Roll", weight: "1g", grams: 1, price: 50 },
+      { id: "gh-pre", label: "Pre-Roll", weight: "1g", grams: 1, price: 50, promo: "buy-9-get-1" },
     ],
   },
   {
@@ -36,18 +37,44 @@ export const MENU: Category[] = [
       { id: "od-50", label: "R50 Pack", weight: "4g", grams: 4, price: 50 },
       { id: "od-100", label: "R100 Pack", weight: "8g", grams: 8, price: 100 },
       { id: "od-bulk", label: "10g+ (Per Gram)", weight: "10g minimum · R120 for 10g", grams: 10, price: 120 },
-      { id: "od-pre", label: "Pre-Roll", weight: "1g", grams: 1, price: 20 },
+      { id: "od-pre", label: "Pre-Roll", weight: "1g", grams: 1, price: 20, promo: "buy-9-get-1" },
     ],
   },
 ];
 
-/** Limited-time menu specials. Kept outside the standard price list and budget mixer. */
+/** Limited-time flower specials. Kept outside the standard price list and budget mixer. */
 export const MENU_SPECIALS: { category: "greenhouse" | "outdoor"; item: MenuItem }[] = [
-  { category: "outdoor", item: { id: "special-od-preroll-10", label: "10 Outdoor Pre-Rolls", weight: "10 × 1g", grams: 10, price: 180 } },
-  { category: "greenhouse", item: { id: "special-gh-preroll-10", label: "10 Greenhouse Pre-Rolls", weight: "10 × 1g", grams: 10, price: 270 } },
   { category: "outdoor", item: { id: "special-od-10g", label: "10g Outdoor Special", weight: "10g", grams: 10, price: 100 } },
-  { category: "greenhouse", item: { id: "special-gh-10g", label: "10g Greenhouse Special", weight: "10g", grams: 10, price: 250 } },
+  { category: "greenhouse", item: { id: "special-gh-10g", label: "10g Greenhouse Special", weight: "10g", grams: 10, price: 200 } },
 ];
+
+export const PRE_ROLL_OFFER = {
+  label: "10 Pre-Rolls",
+  detail: "Buy 9, get 1 free",
+  note: "Mix & match; the lowest-priced pre-roll is free when types are combined.",
+} as const;
+
+/** Every tenth eligible pre-roll is free; if types are mixed, discount the cheapest one(s). */
+export function calculatePreRollOffer(
+  lines: Array<{ promo?: MenuItem["promo"]; price: number; qty: number }>,
+) {
+  const unitPrices = lines.flatMap((line) =>
+    line.promo === "buy-9-get-1" && Number.isFinite(line.qty) && line.qty > 0
+      ? Array.from({ length: Math.floor(line.qty) }, () => line.price)
+      : [],
+  );
+  const freeCount = Math.floor(unitPrices.length / 10);
+  const discount = unitPrices
+    .sort((a, b) => a - b)
+    .slice(0, freeCount)
+    .reduce((sum, price) => sum + price, 0);
+
+  return {
+    eligibleCount: unitPrices.length,
+    freeCount,
+    discount: Math.round(discount * 100) / 100,
+  };
+}
 
 /** Separate legacy 1.67g offerings; not part of the general greenhouse budget mixer. */
 export const SPECIAL_PACKS: MenuItem[] = [
